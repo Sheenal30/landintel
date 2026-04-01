@@ -5,23 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>LandIntel - Jaipur Land Intelligence</title>
     
-    <!-- 1. Leaflet CSS (Map Engine) -->
+    <!-- Map Engine CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- 2. Custom CSS (Explicit relative path to fix your issue) -->
-    <link rel="stylesheet" href="./styles.css" />
+    <!-- Bulletproof Embedded CSS -->
+    <style>
+        * { box-sizing: border-box; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; color: #333; overflow-x: hidden; }
+
+        .hero { background: #2c3e50; color: white; padding: 20px; text-align: center; border-bottom: 4px solid #3498db; }
+        .hero h1 { margin: 0; font-size: 28px; color: #ecf0f1; }
+        .hero p.tagline { font-size: 15px; color: #3498db; margin: 8px 0; font-weight: bold; }
+        .contact-badge { display: inline-block; background: rgba(255,255,255,0.1); padding: 6px 15px; border-radius: 20px; font-size: 13px; border: 1px solid #34495e; }
+
+        .app-container { display: flex; flex-direction: row; height: calc(100vh - 120px); min-height: 500px; width: 100%; }
+
+        .sidebar { width: 320px; background: #fff; padding: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 1000; overflow-y: auto; }
+        .panel-box { margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e9ecef; }
+        .panel-box label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #2c3e50; }
+        .panel-box select { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
+        .demo-note { font-size: 13px; color: #7f8c8d; background: #e8f4f8; padding: 10px; border-radius: 6px; border-left: 3px solid #3498db; }
+
+        /* Forces the map to render properly */
+        #map { flex-grow: 1; height: 100%; width: 100%; min-height: 500px; z-index: 1; background: #e5e3df; }
+
+        .popup-title { font-weight: bold; font-size: 15px; margin-bottom: 5px; color: #2980b9; }
+        .popup-detail { margin: 4px 0; font-size: 13px; line-height: 1.4; }
+        .btn-primary { display: block; width: 100%; background: #2c3e50; color: white; padding: 8px 0; margin-top: 10px; border-radius: 4px; font-size: 12px; font-weight: bold; border: none; cursor: pointer; }
+        .btn-primary:hover { background: #34495e; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; display: flex; flex-direction: column;}
+        .modal-header { background: #2c3e50; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #3498db;}
+        .modal-header h2 { margin: 0; font-size: 18px; }
+        .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; line-height: 1;}
+        .modal-body { padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; height: auto; }
+            .sidebar { width: 100%; max-height: 250px; }
+            #map { height: 60vh; min-height: 400px; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Hero Section -->
     <div class="hero">
         <h1>LandIntel</h1>
         <p class="tagline">Data Pipeline: Python Scraper → JSON → Map</p>
         <div class="contact-badge">Showing Data from: <span id="lastUpdated">Loading...</span></div>
     </div>
 
-    <!-- Main App Container -->
     <div class="app-container">
-        <!-- Sidebar -->
         <div class="sidebar">
             <div class="panel-box">
                 <label>📍 Filter Listings</label>
@@ -33,28 +67,115 @@
             </div>
             <p class="demo-note">Click a listing to view the Real AI Report extracted from the Python backend.</p>
         </div>
-        
-        <!-- Map Container -->
         <div id="map"></div>
     </div>
 
-    <!-- AI Modal -->
     <div class="modal-overlay" id="aiModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>🧠 AI Land Intelligence Report</h2>
                 <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <div class="modal-body" id="modalBodyContent">
-                <!-- Data will be injected here -->
-            </div>
+            <div class="modal-body" id="modalBodyContent"></div>
         </div>
     </div>
 
-    <!-- 3. Leaflet JS -->
+    <!-- Map Engine JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <!-- 4. Custom JS (Explicit relative path with defer) -->
-    <script src="./app.js" defer></script>
+    <!-- Embedded Application Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const map = L.map('map').setView([26.78, 75.82], 11);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors | LandIntel'
+            }).addTo(map);
+
+            const infraLayer = L.layerGroup().addTo(map);
+            const landLayer = L.layerGroup().addTo(map);
+            L.control.layers(null, {"🏗️ Govt Infrastructure": infraLayer, "📍 Land Listings": landLayer}, { collapsed: false }).addTo(map);
+
+            let globalListings = [];
+
+            // Fetching the JSON data you successfully generated with Python
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) throw new Error("Could not load data.json");
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('lastUpdated').innerText = data.last_updated;
+                    globalListings = data.listings;
+                    
+                    data.infrastructure.forEach(item => {
+                        const marker = L.circleMarker([item.lat, item.lng], { color: '#c0392b', fillColor: '#e74c3c', fillOpacity: 0.8, radius: 8, weight: 2 });
+                        marker.bindPopup(`
+                            <div class="popup-title" style="color:#c0392b;">🏗️ ${item.name}</div>
+                            <div class="popup-detail"><strong>Status:</strong> ${item.status}</div>
+                            <div class="popup-detail"><em>${item.desc}</em></div>
+                        `);
+                        infraLayer.addLayer(marker);
+                    });
+
+                    renderListings();
+                })
+                .catch(error => {
+                    console.error(error);
+                    document.getElementById('lastUpdated').innerText = "Data file missing. Run python scraper.py";
+                });
+
+            function renderListings() {
+                landLayer.clearLayers();
+                const priceFilter = document.getElementById('priceFilter').value;
+
+                globalListings.forEach((item, index) => {
+                    if (priceFilter === 'under100' && item.price >= 100) return;
+                    if (priceFilter === 'over100' && item.price < 100) return;
+
+                    const marker = L.marker([item.lat, item.lng]);
+                    marker.bindPopup(`
+                        <div class="popup-title">📍 ${item.title}</div>
+                        <div class="popup-detail"><strong>Price:</strong> ${item.priceTxt}</div>
+                        <div class="popup-detail" style="margin-bottom:8px;"><em>${item.desc}</em></div>
+                        <button class="btn-primary" onclick="openReport(${index})">View Real AI Report</button>
+                    `);
+                    landLayer.addLayer(marker);
+                });
+            }
+
+            window.openReport = function(index) {
+                const ai = globalListings[index].ai_report;
+                const sourcesHtml = ai.sources.map(src => `<span style="display:inline-block; background:#ecf0f1; padding:3px 6px; border-radius:4px; font-size:11px; margin:2px 5px 2px 0; border:1px solid #bdc3c7;">📄 ${src}</span>`).join('');
+
+                const htmlContent = `
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px;">
+                        <div style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #e9ecef;">
+                            <h4 style="margin:0 0 5px 0; font-size:11px; color:#7f8c8d; text-transform:uppercase;">Certainty</h4>
+                            <p style="margin:0; font-weight:bold; font-size:14px;">${ai.certaintyScore}</p>
+                        </div>
+                        <div style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #e9ecef;">
+                            <h4 style="margin:0 0 5px 0; font-size:11px; color:#7f8c8d; text-transform:uppercase;">Habitation</h4>
+                            <p style="margin:0; font-weight:bold; font-size:14px;">${ai.civilization}</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">🏗️ Infra Reality Check</h3><p style="margin:0; font-size:13px;">${ai.projectStatus}</p></div>
+                    <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">⚖️ Zoning & Legal Risk</h3><p style="margin:0; font-size:13px;">${ai.zoningRisk}</p></div>
+                    <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">💡 Optimal Land Use</h3><p style="margin:0; font-size:13px;">${ai.bestUse}</p></div>
+                    <div style="background:#f0f3f4; padding:10px; border-radius:6px;">
+                        <h3 style="font-size:11px; margin:0 0 5px 0; color:#7f8c8d;">DATA LINEAGE (SCRAPED SOURCES)</h3>
+                        <div>${sourcesHtml}</div>
+                    </div>
+                `;
+                document.getElementById('modalBodyContent').innerHTML = htmlContent;
+                document.getElementById('aiModal').style.display = 'flex';
+            };
+
+            document.getElementById('closeModalBtn').addEventListener('click', () => {
+                document.getElementById('aiModal').style.display = 'none';
+            });
+
+            document.getElementById('priceFilter').addEventListener('change', renderListings);
+        });
+    </script>
 </body>
 </html>

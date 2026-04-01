@@ -3,69 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>LandIntel - Jaipur Land Intelligence</title>
+    <title>LandIntel - Locality Intelligence</title>
     
-    <!-- Map Engine CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Bulletproof Embedded CSS -->
     <style>
         * { box-sizing: border-box; }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; color: #333; overflow-x: hidden; }
 
-        .hero { background: #2c3e50; color: white; padding: 20px; text-align: center; border-bottom: 4px solid #3498db; }
-        .hero h1 { margin: 0; font-size: 28px; color: #ecf0f1; }
-        .hero p.tagline { font-size: 15px; color: #3498db; margin: 8px 0; font-weight: bold; }
-        .contact-badge { display: inline-block; background: rgba(255,255,255,0.1); padding: 6px 15px; border-radius: 20px; font-size: 13px; border: 1px solid #34495e; }
+        .hero { background: #2c3e50; color: white; padding: 15px; text-align: center; border-bottom: 4px solid #3498db; }
+        .hero h1 { margin: 0; font-size: 24px; color: #ecf0f1; }
+        .hero p.tagline { font-size: 13px; color: #3498db; margin: 4px 0; font-weight: bold; }
+        .contact-badge { display: inline-block; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; font-size: 11px; border: 1px solid #34495e; }
 
-        .app-container { display: flex; flex-direction: row; height: calc(100vh - 120px); min-height: 500px; width: 100%; }
+        .app-container { display: flex; flex-direction: row; height: calc(100vh - 100px); min-height: 500px; width: 100%; }
 
         .sidebar { width: 320px; background: #fff; padding: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 1000; overflow-y: auto; }
-        .panel-box { margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e9ecef; }
-        .panel-box label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #2c3e50; }
-        .panel-box select { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
-        .demo-note { font-size: 13px; color: #7f8c8d; background: #e8f4f8; padding: 10px; border-radius: 6px; border-left: 3px solid #3498db; }
+        .panel-box { margin-bottom: 15px; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px solid #e9ecef; }
+        .panel-box label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #2c3e50; }
+        .panel-box select { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px; }
+        .demo-note { font-size: 12px; color: #7f8c8d; background: #e8f4f8; padding: 8px; border-radius: 6px; border-left: 3px solid #3498db; }
 
-        /* Forces the map to render properly */
         #map { flex-grow: 1; height: 100%; width: 100%; min-height: 500px; z-index: 1; background: #e5e3df; }
 
-        .popup-title { font-weight: bold; font-size: 15px; margin-bottom: 5px; color: #2980b9; }
-        .popup-detail { margin: 4px 0; font-size: 13px; line-height: 1.4; }
-        .btn-primary { display: block; width: 100%; background: #2c3e50; color: white; padding: 8px 0; margin-top: 10px; border-radius: 4px; font-size: 12px; font-weight: bold; border: none; cursor: pointer; }
-        .btn-primary:hover { background: #34495e; }
+        .popup-title { font-weight: bold; font-size: 14px; margin-bottom: 4px; color: #2980b9; }
+        .popup-detail { margin: 3px 0; font-size: 12px; line-height: 1.4; }
+        .btn-primary { display: block; width: 100%; background: #2c3e50; color: white; padding: 8px 0; margin-top: 10px; border-radius: 4px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
+        
+        .legend { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.2); line-height: 1.5; font-size: 12px; }
+        .legend i { width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 5px; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; display: flex; flex-direction: column;}
-        .modal-header { background: #2c3e50; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #3498db;}
-        .modal-header h2 { margin: 0; font-size: 18px; }
-        .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; line-height: 1;}
-        .modal-body { padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+        .modal-header { background: #2c3e50; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #3498db;}
+        .modal-header h2 { margin: 0; font-size: 16px; }
+        .close-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; line-height: 1;}
+        .modal-body { padding: 15px; overflow-y: auto; font-size: 13px; line-height: 1.6; }
 
         @media (max-width: 768px) {
             .app-container { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; max-height: 250px; }
+            .sidebar { width: 100%; max-height: 200px; padding: 10px; }
             #map { height: 60vh; min-height: 400px; }
         }
     </style>
 </head>
 <body>
     <div class="hero">
-        <h1>LandIntel</h1>
-        <p class="tagline">Data Pipeline: Python Scraper → JSON → Map</p>
-        <div class="contact-badge">Showing Data from: <span id="lastUpdated">Loading...</span></div>
+        <h1>LandIntel - Expert Locality Intel</h1>
+        <p class="tagline">Data: News Feed + JDA Master Plan + LLM Synthesis</p>
+        <div class="contact-badge">Updated: <span id="lastUpdated">...</span></div>
     </div>
 
     <div class="app-container">
         <div class="sidebar">
             <div class="panel-box">
-                <label>📍 Filter Listings</label>
+                <label>📍 Map Layers</label>
+                <div style="font-size: 12px; color: #555;">
+                    <p>⭐ Locality Health Reports</p>
+                    <p>📍 Verified/AI Listings</p>
+                </div>
+            </div>
+            <div class="panel-box">
+                <label>💰 Price Filter</label>
                 <select id="priceFilter">
-                    <option value="all">All Properties</option>
-                    <option value="under100">Under ₹1 Crore</option>
-                    <option value="over100">₹1 Crore & Above</option>
+                    <option value="all">All Budgets</option>
+                    <option value="under50">Under ₹50 Lakh</option>
+                    <option value="50-100">₹50 Lakh - ₹1 Cr</option>
+                    <option value="over100">Over ₹1 Cr</option>
                 </select>
             </div>
-            <p class="demo-note">Click a listing to view the Real AI Report extracted from the Python backend.</p>
+            <p class="demo-note">Click <b>Locality Stars</b> for Zone Reports or <b>Blue Pins</b> for Listings.</p>
         </div>
         <div id="map"></div>
     </div>
@@ -73,129 +80,115 @@
     <div class="modal-overlay" id="aiModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🧠 AI Land Intelligence Report</h2>
+                <h2 id="modalHeaderTitle">🧠 Intelligence Report</h2>
                 <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
             <div class="modal-body" id="modalBodyContent"></div>
         </div>
     </div>
 
-    <!-- Map Engine JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <!-- Embedded Application Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const map = L.map('map').setView([26.78, 75.82], 11);
+            const map = L.map('map').setView([26.85, 75.75], 11);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors | LandIntel'
+                attribution: '&copy; LandIntel Jaipur'
             }).addTo(map);
 
-            const infraLayer = L.layerGroup().addTo(map);
-            const landLayer = L.layerGroup().addTo(map);
-            L.control.layers(null, {"🏗️ Govt Infrastructure": infraLayer, "📍 Land Listings": landLayer}, { collapsed: false }).addTo(map);
+            const localityLayer = L.layerGroup().addTo(map);
+            const listingLayer = L.layerGroup().addTo(map);
+            L.control.layers(null, {"⭐ Locality Intelligence": localityLayer, "📍 Land Listings": listingLayer}, { collapsed: false }).addTo(map);
 
             let globalListings = [];
 
-            // Fetching the JSON data you successfully generated with Python
             fetch('data.json')
-                .then(response => {
-                    if (!response.ok) throw new Error("Could not load data.json");
-                    return response.json();
-                })
+                .then(r => r.json())
                 .then(data => {
                     document.getElementById('lastUpdated').innerText = data.last_updated;
                     globalListings = data.listings;
-                    
-                    data.infrastructure.forEach(item => {
-                        const marker = L.circleMarker([item.lat, item.lng], { color: '#c0392b', fillColor: '#e74c3c', fillOpacity: 0.8, radius: 8, weight: 2 });
-                        marker.bindPopup(`
-                            <div class="popup-title" style="color:#c0392b;">🏗️ ${item.name}</div>
-                            <div class="popup-detail"><strong>Status:</strong> ${item.status}</div>
-                            <div class="popup-detail"><strong>Civilization Score:</strong> ${item.civilization_score || 'N/A'}</div>
-                            <div class="popup-detail"><strong>Utilities:</strong> ${item.utility_status || 'N/A'}</div>
-                            <div class="popup-detail" style="margin-top:8px;"><em>${item.desc}</em></div>
-                        `);
-                        infraLayer.addLayer(marker);
+
+                    // Render Localities
+                    data.localities.forEach(loc => {
+                        const starMarker = L.marker([loc.lat, loc.lng], {
+                            icon: L.divIcon({
+                                className: 'custom-div-icon',
+                                html: "<div style='background:rgba(255,255,255,0.9); border:2px solid #f1c40f; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 2px 5px rgba(0,0,0,0.2);'>⭐</div>",
+                                iconSize: [30, 30],
+                                iconAnchor: [15, 15]
+                            })
+                        });
+
+                        const projectsHtml = loc.major_projects.map(p => `<li style="margin-bottom:3px;">${p}</li>`).join('');
+
+                        starMarker.bindPopup(`
+                            <div class="popup-title" style="color:#f39c12;">⭐ Zone: ${loc.name}</div>
+                            <div class="popup-detail"><strong>Infra Score:</strong> ${loc.infra_score}</div>
+                            <div class="popup-detail"><strong>Civilization:</strong> ${loc.civilization_score}</div>
+                            <div class="popup-detail" style="margin-top:8px; border-top:1px solid #eee; padding-top:8px;">
+                                <strong>Active Projects:</strong>
+                                <ul style="padding-left:15px; margin:5px 0;">${projectsHtml}</ul>
+                            </div>
+                            <div class="popup-detail" style="background:#f9f9f9; padding:8px; border-radius:4px; font-style:italic;">
+                                "${loc.brutal_truth}"
+                            </div>
+                        `, { maxWidth: 280 });
+                        localityLayer.addLayer(starMarker);
                     });
 
                     renderListings();
-                })
-                .catch(error => {
-                    console.error(error);
-                    document.getElementById('lastUpdated').innerText = "Data file missing. Run python scraper.py";
                 });
 
             function renderListings() {
-                landLayer.clearLayers();
-                const priceFilter = document.getElementById('priceFilter').value;
+                listingLayer.clearLayers();
+                const filter = document.getElementById('priceFilter').value;
 
                 globalListings.forEach((item, index) => {
-                    if (priceFilter === 'under100' && item.price >= 100) return;
-                    if (priceFilter === 'over100' && item.price < 100) return;
+                    const price = item.price;
+                    if (filter === 'under50' && price >= 50) return;
+                    if (filter === '50-100' && (price < 50 || price > 100)) return;
+                    if (filter === 'over100' && price <= 100) return;
 
                     const marker = L.marker([item.lat, item.lng]);
                     marker.bindPopup(`
                         <div class="popup-title">📍 ${item.title}</div>
                         <div class="popup-detail"><strong>Price:</strong> ${item.priceTxt}</div>
                         <div class="popup-detail" style="margin-bottom:8px;"><em>${item.desc}</em></div>
-                        <button class="btn-primary" onclick="openReport(${index})">View Real AI Report</button>
+                        <button class="btn-primary" onclick="openListingReport(${index})">View Analysis</button>
                     `);
-                    landLayer.addLayer(marker);
+                    listingLayer.addLayer(marker);
                 });
             }
 
-            window.openReport = function(index) {
+            window.openListingReport = function(index) {
                 const ai = globalListings[index].ai_report;
-                const sourcesHtml = ai.sources.map(src => `<span style="display:inline-block; background:#ecf0f1; padding:4px 8px; border-radius:4px; font-size:11px; margin:3px 5px 3px 0; border:1px solid #bdc3c7; color:#34495e;">📄 ${src}</span>`).join('');
-
-                const htmlContent = `
-                    <div style="background: #1e272e; color: white; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-                        <h3 style="margin: 0 0 5px 0; font-size: 14px; color: #0fb9b1; text-transform: uppercase; letter-spacing: 1px;">Expert AI Verdict</h3>
-                        <p style="margin: 0; font-size: 15px; font-weight: 500; line-height: 1.5;">${ai.recommendation}</p>
+                const html = `
+                    <div style="background: #1e272e; color: white; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 13px; color: #0fb9b1; text-transform: uppercase;">Verdict</h3>
+                        <p style="margin: 0; font-size: 14px;">${ai.recommendation}</p>
                     </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                        <div style="background: #f1f2f6; padding: 12px; border-radius: 6px; border-left: 4px solid #2ed573;">
-                            <h4 style="margin:0 0 4px 0; font-size:11px; color:#57606f; text-transform:uppercase;">5-Year Projection</h4>
-                            <p style="margin:0; font-weight:bold; font-size:16px; color:#2f3542;">${ai.projections.split('|')[0].replace('5-Year: ', '')}</p>
-                        </div>
-                        <div style="background: #f1f2f6; padding: 12px; border-radius: 6px; border-left: 4px solid #1e90ff;">
-                            <h4 style="margin:0 0 4px 0; font-size:11px; color:#57606f; text-transform:uppercase;">10-Year Projection</h4>
-                            <p style="margin:0; font-weight:bold; font-size:16px; color:#2f3542;">${ai.projections.split('|')[1].replace('10-Year: ', '')}</p>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px;">
+                        <div style="background: #f1f2f6; padding: 10px; border-radius: 6px; border-left: 4px solid #2ed573;">
+                            <h4 style="margin:0 0 4px 0; font-size:10px; color:#57606f; text-transform:uppercase;">ROI Projection</h4>
+                            <p style="margin:0; font-weight:bold; font-size:14px;">${ai.projections}</p>
                         </div>
                     </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <h3 style="font-size: 15px; margin: 0 0 8px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea; padding-bottom: 4px;">🏗️ Infrastructure Catalysts</h3>
-                        <p style="margin: 0; font-size: 14px; color: #2f3542; line-height: 1.5;"><strong>Status:</strong> ${ai.infra}</p>
-                        <p style="margin: 8px 0 0 0; font-size: 14px; color: #2f3542; line-height: 1.5;"><strong>Future Driver:</strong> ${ai.catalysts}</p>
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="font-size: 14px; margin: 0 0 5px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea;">🏗️ Infrastructure Impact</h3>
+                        <p style="margin: 0;">${ai.infra}</p>
                     </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <h3 style="font-size: 15px; margin: 0 0 8px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea; padding-bottom: 4px;">🌍 Habitability & Civilization</h3>
-                        <p style="margin: 0; font-size: 14px; color: #2f3542; line-height: 1.5;">${ai.civilization}</p>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <h3 style="font-size: 15px; margin: 0 0 8px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea; padding-bottom: 4px;">🚰 Basic Utilities</h3>
-                        <p style="margin: 0; font-size: 14px; color: #2f3542; line-height: 1.5; background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px dashed #ced6e0;">${ai.utilities}</p>
-                    </div>
-
-                    <div style="background: #f8f9fa; padding: 12px; border-radius: 6px;">
-                        <h3 style="font-size: 11px; margin: 0 0 8px 0; color: #7f8c8d; text-transform: uppercase;">Data Lineage (Scraped Gov/Market Sources)</h3>
-                        <div>${sourcesHtml}</div>
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="font-size: 14px; margin: 0 0 5px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea;">🌍 Civilization & Utilities</h3>
+                        <p style="margin: 0;"><strong>Habitability:</strong> ${ai.civilization}</p>
+                        <p style="margin: 5px 0 0 0;"><strong>Utilities:</strong> ${ai.utilities}</p>
                     </div>
                 `;
-                document.getElementById('modalBodyContent').innerHTML = htmlContent;
+                document.getElementById('modalBodyContent').innerHTML = html;
                 document.getElementById('aiModal').style.display = 'flex';
             };
 
-            document.getElementById('closeModalBtn').addEventListener('click', () => {
-                document.getElementById('aiModal').style.display = 'none';
-            });
-
-            document.getElementById('priceFilter').addEventListener('change', renderListings);
+            document.getElementById('closeModalBtn').onclick = () => document.getElementById('aiModal').style.display = 'none';
+            document.getElementById('priceFilter').onchange = renderListings;
         });
     </script>
 </body>

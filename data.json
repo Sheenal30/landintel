@@ -1,127 +1,211 @@
 {
-    "last_updated": "01 Apr 2026",
+    "last_updated": "24 May 2024",
     "listings": [
         {
-            "title": "200 sq.yd JDA Plot, Jagatpura Extension (Nilay Kunj/Ramnagariya South)",
-            "priceTxt": "\u20b91.35 Crore",
-            "price": 135,
-            "lat": 26.8215,
-            "lng": 75.8692,
-            "desc": "High-demand residential plot near the upcoming Metro Phase-1C extension route.",
+            "title": "JDA Approved Plot - Mahal Road, Jagatpura",
+            "priceTxt": "\u20b975,000 - \u20b995,000 per sq. yard",
+            "price": 85000,
+            "lat": 26.8225,
+            "lng": 75.8652,
+            "desc": "Residential plot in an established pocket near NRI Colony. Immediate possession.",
             "ai_report": {
-                "recommendation": "Avoid for immediate move-in; Hold if you have black money to park.",
-                "projections": "5-Year: 40% | 10-Year: 75%",
-                "infra": "3km from the proposed Jhalana Bypass elevated road and upcoming Metro extension.",
-                "catalysts": "Completion of the 2nd phase of the elevated road and Metro connectivity to Sitapura.",
-                "civilization": "Schools like Jayshree Periwal are nearby, but hospitals are over-leveraged. The area is a 'concrete heat island' with zero parks that aren't encroached.",
-                "utilities": "Bisalpur water is a pipe dream here; you will pay \u20b9800 per tanker forever. Sewerage overflows every monsoon.",
+                "recommendation": "Buy only if JDA approved; avoid society patches. It's the most liquid asset in Jaipur right now, but you're paying a premium for 'hype'.",
+                "projections": "12-15% CAGR",
+                "infra": "Direct benefit from Sanganer Elevated road and upcoming Jhalana Bypass three-tier transit.",
+                "catalysts": "Proximity to Bombay Hospital and Airport expansion.",
+                "civilization": "High-end. Schools like Jayshree Periwal nearby. Elite crowd, mostly doctors and HNIs.",
+                "utilities": "Sewerage is decent, but ground water is depleting fast. You will rely on tankers or Bisalpur connection (if lucky).",
                 "sources": [
-                    "JDA Master Plan 2025",
-                    "Times of India Infra Report 2024",
-                    "Local Patwari Records"
+                    "TOI Infra News",
+                    "JDA Master Plan 2025"
                 ]
             }
         },
         {
-            "title": "166 sq.yd JDA Plot, Mahindra SEZ (Ajmer Road Enclave)",
-            "priceTxt": "\u20b968 Lakh",
-            "price": 68,
-            "lat": 26.8502,
-            "lng": 75.6205,
-            "desc": "Plot in a gated 'township' near the Ring Road-Ajmer Road cloverleaf.",
+            "title": "Gated Township Plot - Ajmer Road (Near SEZ)",
+            "priceTxt": "\u20b935,000 - \u20b955,000 per sq. yard",
+            "price": 45000,
+            "lat": 26.852,
+            "lng": 75.625,
+            "desc": "Plot in a landscaped township with clubhouse facilities near Mahindra SEZ.",
             "ai_report": {
-                "recommendation": "Buy only if you work in Infosys/Genpact; otherwise, it's an isolated island.",
-                "projections": "5-Year: 25% | 10-Year: 60%",
-                "infra": "Adjacent to the Delhi-Jaipur Super Expressway terminal point.",
-                "catalysts": "Full operationalization of the Ring Road Northern corridor and NHAI logistics hub.",
-                "civilization": "Elite schools (Step by Step) are 15km away. Nightlife is non-existent. It\u2019s a 'ghost town' after 8 PM with high stray dog density.",
-                "utilities": "Groundwater is hard and receding. Electricity is stable, but private maintenance charges will bleed you dry.",
+                "recommendation": "Great for a 5-10 year horizon. Don't expect to live there tomorrow; it's a 'weekend home' zone for now.",
+                "projections": "18-20% CAGR (High growth potential due to Ring Road).",
+                "infra": "Massive boost from Rs 30,000 Cr highway projects and Delhi-Jaipur Super Expressway connectivity.",
+                "catalysts": "Mahindra SEZ expansion and Ring Road Phase 2 integration.",
+                "civilization": "Emerging. Top schools like Step by Step are operational, but daily shopping requires a car.",
+                "utilities": "Electricity is stable; water is purely borewell-dependent. Sewerage managed by private developers.",
                 "sources": [
-                    "NHAI Project Status",
-                    "Construction World SEZ Review",
-                    "Housing.com Data"
+                    "Swarajyamag Road Projects",
+                    "Housing.com Tier 2 Report"
                 ]
             }
         },
         {
-            "title": "250 sq.yd JDA Plot, Chimanpura (Sikar Road Extension)",
-            "priceTxt": "\u20b955 Lakh",
-            "price": 55,
-            "lat": 27.015,
-            "lng": 75.768,
-            "desc": "Budget investment plot near the Northern Ring Road transport corridor.",
-            "ai_report": {
-                "recommendation": "Hold. This is a 10-year play. Do not build a house here yet.",
-                "projections": "5-Year: 50% | 10-Year: 110%",
-                "infra": "Under the direct impact zone of the NHAI Northern Ring Road project.",
-                "catalysts": "Shift of the main transport nagar and heavy vehicle traffic to the Northern Ring Road.",
-                "civilization": "Zero civilization. It's currently farmland and godowns. Closest decent hospital is in Vidhyadhar Nagar (12km).",
-                "utilities": "Borewell water only\u2014highly saline. No government sewerage; septic tanks are the only reality.",
-                "sources": [
-                    "NHAI Transport Corridor Plan",
-                    "Bhaskar English Real Estate Action Report"
-                ]
-            }
-        },
-        {
-            "title": "150 sq.yd JDA Plot, Near Narayan Singh Circle (Central Jaipur)",
-            "priceTxt": "\u20b93.2 Crore",
-            "price": 320,
-            "lat": 26.8995,
-            "lng": 75.8185,
-            "desc": "Rare corner plot in a high-density zone being converted to signal-free.",
-            "ai_report": {
-                "recommendation": "Buy for commercial use; Avoid for residential due to insane noise.",
-                "projections": "5-Year: 15% | 10-Year: 30% (Price has already peaked)",
-                "infra": "Directly benefits from the removal of the Narayan Singh Circle footbridge and new signal-free corridors.",
-                "catalysts": "The 'Delhi Model' signal-free implementation by JDA.",
-                "civilization": "Heart of the city. Everything is within 1km. But you will breathe PM2.5 for breakfast.",
-                "utilities": "Old Bisalpur lines (frequent leaks). Drainage is 40 years old and chokes regularly.",
-                "sources": [
-                    "JDA Project Approvals (\u20b9526 Cr)",
-                    "TOI Traffic Congestion Report"
-                ]
-            }
-        },
-        {
-            "title": "200 sq.yd JDA Plot, Sanganer (Near New Elevated Road)",
-            "priceTxt": "\u20b995 Lakh",
-            "price": 95,
-            "lat": 26.802,
+            "title": "Industrial/Warehouse Land - Sikar Road (Near Northern Ring Road)",
+            "priceTxt": "\u20b922,000 - \u20b930,000 per sq. yard",
+            "price": 26000,
+            "lat": 27.025,
             "lng": 75.785,
-            "desc": "Plot near the OTS Crossing/Sanganer elevated road project site.",
+            "desc": "Raw land parcels ideal for logistics or long-term investment near Chimanpura.",
             "ai_report": {
-                "recommendation": "Buy now before the elevated road construction makes the area inaccessible for 3 years.",
-                "projections": "5-Year: 35% | 10-Year: 55%",
-                "infra": "Walking distance to the new Sanganer-OTS elevated corridor.",
-                "catalysts": "Completion of the elevated road which will cut travel time to Tonk Road by 20 mins.",
-                "civilization": "High civilization but chaotic. Markets are cramped. Proximity to airport means permanent noise pollution.",
-                "utilities": "Good Bisalpur coverage compared to Jagatpura. Electricity is fine, but the lanes are too narrow for fire tenders.",
+                "recommendation": "High risk, high reward. Wait for the Northern Ring Road corridor clarity before dumping big capital.",
+                "projections": "25% surge post Ring Road completion.",
+                "infra": "NHAI Transport Corridor of Northern Ring Road project is the sole lifeline here.",
+                "catalysts": "Shifting of heavy transport hubs outside the main city.",
+                "civilization": "Low. Industrial vibe. Not suitable for families yet.",
+                "utilities": "Basic electricity; zero public sewerage; industrial-grade water issues.",
                 "sources": [
-                    "Construction World Elevated Road Update",
-                    "JDA Budget Allocation 2024"
+                    "Construction World Northern Ring Road",
+                    "Chimanpura Property Insights"
+                ]
+            }
+        },
+        {
+            "title": "Residential Plot - Tonk Road (Shivdaspura Area)",
+            "priceTxt": "\u20b928,000 - \u20b940,000 per sq. yard",
+            "price": 34000,
+            "lat": 26.715,
+            "lng": 75.855,
+            "desc": "Affordable plots near the Ring Road junction. Future growth corridor.",
+            "ai_report": {
+                "recommendation": "The 'Poor Man's Jagatpura' that won't stay poor for long. Buy before the Metro Phase 2 extension kicks in.",
+                "projections": "15% CAGR",
+                "infra": "JDA roadmap for Ring Road and Metro extension loan process is the main driver.",
+                "catalysts": "Proposed Satellite Hospital and Cargo Hub proximity.",
+                "civilization": "Moderate. Chokhi Dhani vibe. Rapidly developing coaching hubs nearby.",
+                "utilities": "Government focusing on this belt for organized sewerage under new JDA projects.",
+                "sources": [
+                    "Construction World Metro Loan",
+                    "JDA Rs 526cr Approval"
+                ]
+            }
+        },
+        {
+            "title": "Premium Plot - Vaishali Nagar Extension",
+            "priceTxt": "\u20b965,000 - \u20b985,000 per sq. yard",
+            "price": 75000,
+            "lat": 26.895,
+            "lng": 75.725,
+            "desc": "Plots in organized blocks with wide roads and proximity to Gandhi Path West.",
+            "ai_report": {
+                "recommendation": "The safest bet for end-users. Prices are sticky and rarely fall even in a slump.",
+                "projections": "10-12% CAGR (Mature market).",
+                "infra": "Benefit from signal-free zones on Delhi model planned by JDA.",
+                "catalysts": "Saturation of main Vaishali Nagar is pushing all 'Old Money' here.",
+                "civilization": "Excellent. High-end cafes, hospitals (Shalby), and premium gyms.",
+                "utilities": "Best in class for Jaipur, but traffic congestion is becoming a nightmare.",
+                "sources": [
+                    "TOI Signal-free Zones",
+                    "HDFC ERGO Price Surge Report"
                 ]
             }
         }
     ],
-    "infrastructure": [
+    "localities": [
         {
-            "name": "Jaipur Ring Road (Southern & Northern Phase)",
-            "status": "Operational / Northern Extension Underway",
-            "lat": 26.755,
-            "lng": 75.82,
-            "civilization_score": "3/10",
-            "utility_status": "Industrial power ready; Water tankers are the only god.",
-            "desc": "Deep AI Insight: It is a 'Highway to Nowhere' for residents. While logistics and godowns are booming, the residential pockets are 'ghost sectors' with no streetlights and high crime risk at night. Do not be fooled by the 65% price surge\u2014it's purely speculative flip-trading among brokers."
+            "name": "Jagatpura",
+            "lat": 26.825,
+            "lng": 75.865,
+            "infra_score": "8/10",
+            "civilization_score": "8/10",
+            "utility_status": "Severe water crisis; tanker dependency is 70%. Electricity is reliable. Sewerage is 60% covered.",
+            "major_projects": [
+                "Jhalana Bypass 3-tier system",
+                "Sanganer Elevated Road"
+            ],
+            "brutal_truth": "It's the 'Whitefield' of Jaipur. Overpriced apartments and dusty roads, but it\u2019s where the jobs and money are. Buy land, not flats, if you want to beat the 65% price surge inflation."
         },
         {
-            "name": "Shivdaspura Aero City / Junction",
-            "status": "Stalled / Political Football",
-            "lat": 26.72,
-            "lng": 75.82,
-            "civilization_score": "1/10",
-            "utility_status": "No sewerage, no Bisalpur, high litigation risk.",
-            "desc": "Deep AI Insight: The 'Aero City' tag is a marketing scam. Ground reality: Land acquisition is stuck in legal hell. Most 'plots' sold here are on society pattas which the government just stopped registering. If you buy here, you aren't an investor; you're a gambler with bad odds."
+            "name": "Ajmer Road / SEZ",
+            "lat": 26.855,
+            "lng": 75.655,
+            "infra_score": "9/10",
+            "civilization_score": "5/10",
+            "utility_status": "Good roads but zero public transport. Water is a private headache. Sewerage is non-existent outside gated townships.",
+            "major_projects": [
+                "Delhi-Jaipur Super Expressway",
+                "Mahindra SEZ Expansion"
+            ],
+            "brutal_truth": "Investment goldmine, residential graveyard. Great for your portfolio, terrible for your social life. If you buy here, ensure you have two cars and a massive water storage tank."
+        },
+        {
+            "name": "Sikar Road",
+            "lat": 26.985,
+            "lng": 75.765,
+            "infra_score": "6/10",
+            "civilization_score": "5/10",
+            "utility_status": "Polluted air due to industries. Water is hard. Frequent power cuts in smaller colonies.",
+            "major_projects": [
+                "Northern Ring Road",
+                "Transport Corridor"
+            ],
+            "brutal_truth": "The North is waking up late. It's messy, industrial, and prone to traffic jams that will make you cry. Only buy here if you are betting on the Northern Ring Road connection."
+        },
+        {
+            "name": "Kalwar Road",
+            "lat": 26.945,
+            "lng": 75.685,
+            "infra_score": "4/10",
+            "civilization_score": "5/10",
+            "utility_status": "Lacks organized drainage. Narrow internal roads. Bisalpur water is a distant dream for most.",
+            "major_projects": [
+                "JDA Sector Roads",
+                "Loha Mandi Shift"
+            ],
+            "brutal_truth": "The budget trap. Low entry prices lure the middle class, but the lack of planning means you'll be living in a concrete jungle with zero breathing space. Avoid 'Society Patta' here at all costs."
+        },
+        {
+            "name": "Sirsi Road",
+            "lat": 26.915,
+            "lng": 75.705,
+            "infra_score": "7/10",
+            "civilization_score": "7/10",
+            "utility_status": "Better than Kalwar but worse than Vaishali. Private water schemes are common. Sewerage is improving.",
+            "major_projects": [
+                "Khatipura Railway Station Upgrade",
+                "New Elevated Road Link"
+            ],
+            "brutal_truth": "Vaishali\u2019s poorer cousin trying to look rich. Good for families, but builders are over-leveraging the 'Vaishali proximity' to charge insane premiums."
+        },
+        {
+            "name": "Tonk Road",
+            "lat": 26.785,
+            "lng": 75.825,
+            "infra_score": "8/10",
+            "civilization_score": "7/10",
+            "utility_status": "High-noise zone near airport. Good JDA water supply in older parts. Modern sewerage in new projects.",
+            "major_projects": [
+                "Metro Phase 2",
+                "OTS Crossing Elevated Road"
+            ],
+            "brutal_truth": "The backbone of Jaipur. It's congested and noisy, but it has the best institutional connectivity. If you find a clean JDA title here, grab it\u2014they aren't making more land near the airport."
+        },
+        {
+            "name": "Vaishali Nagar Extension",
+            "lat": 26.905,
+            "lng": 75.715,
+            "infra_score": "8/10",
+            "civilization_score": "9/10",
+            "utility_status": "Organized utilities. High maintenance costs. Water is managed but expensive.",
+            "major_projects": [
+                "Signal-free zones",
+                "Gandhi Path West widening"
+            ],
+            "brutal_truth": "The new status symbol. It\u2019s expensive because everyone wants to say they live in Vaishali. Watch out for forged SEBI/Society documents recently flagged in news."
+        },
+        {
+            "name": "Mansarovar Extension",
+            "lat": 26.845,
+            "lng": 75.745,
+            "infra_score": "7/10",
+            "civilization_score": "8/10",
+            "utility_status": "Decent JDA infra. Overcrowding is becoming an issue. Sewerage is mostly functional.",
+            "major_projects": [
+                "ISKCON Temple Road Dev",
+                "New Park Projects"
+            ],
+            "brutal_truth": "Safe but boring. It's a solid middle-class destination with stagnant 'vibe' growth. It\u2019s where you buy a house to live in, not to make 2x returns in 3 years."
         }
     ]
 }

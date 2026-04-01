@@ -39,10 +39,10 @@ def get_live_context(query):
         return ""
 
 def generate_real_ai_analysis(infra_news, land_news):
-    print("🧠 Connecting to Google Gemini LLM for expert market synthesis...")
+    print("🧠 Connecting to Google Gemini LLM for locality-wide intelligence...")
     genai.configure(api_key=GEMINI_API_KEY)
     
-    # Using gemini-2.0-flash or gemini-flash-latest
+    # Using gemini-flash-latest
     model = genai.GenerativeModel('gemini-flash-latest')
     
     prompt = f"""
@@ -55,50 +55,44 @@ def generate_real_ai_analysis(infra_news, land_news):
     "{land_news}"
     
     TASK:
-    1. Identify 5 REALISTIC land investment listings currently trending in Jaipur (e.g., Jagatpura, Ajmer Road, Sikar Road, Mahindra SEZ). Use the context above to make them highly specific.
-    2. For each listing, provide a "Brutal Reality Report". Do NOT sugarcoat. Mention water issues (Bisalpur status), JDA approval risks, and traffic/sewerage realities.
-    3. Update the 2 major infrastructure markers (Jaipur Ring Road and Shivdaspura Aero City) with DEEP AI insights about their current impact on "Civilization" (schools, hospitals, habitability).
-
+    1. Identify 5 REALISTIC land investment listings currently trending in Jaipur (e.g., Jagatpura, Ajmer Road, Sikar Road, Mahindra SEZ). Use the context above.
+    2. PROVIDE DEEP INTEL FOR THE FOLLOWING 8 LOCALITIES IN JAIPUR:
+       [Jagatpura, Ajmer Road/SEZ, Sikar Road, Kalwar Road, Sirsi Road, Tonk Road, Vaishali Nagar Extension, Mansarovar Extension]
+    
+    For each locality, use your internal knowledge of the JDA Master Plan 2025 and recent infrastructure news to provide a "Brutal Reality Report".
+    
     The output MUST be strictly valid JSON matching this structure:
     {{
         "last_updated": "{datetime.now().strftime('%d %b %Y')}",
         "listings": [
             {{
-                "title": "Specific Plot Type & Location (e.g. 200 sq.yd JDA Plot, Jagatpura Extension)",
-                "priceTxt": "Realistic Price (e.g. ₹85 Lakh)",
-                "price": 85,
+                "title": "Plot Type & Location",
+                "priceTxt": "Realistic Price",
+                "price": 80,
                 "lat": 26.8250,
                 "lng": 75.8650,
-                "desc": "Short 1 sentence summary of the deal.",
+                "desc": "Short summary.",
                 "ai_report": {{
-                    "recommendation": "Harsh verdict: Buy/Hold/Avoid.",
-                    "projections": "5-Year: X% | 10-Year: Y%",
-                    "infra": "Specific infra impact (e.g. 500m from upcoming elevated road).",
-                    "catalysts": "What will drive price (e.g. New hospital nearby).",
-                    "civilization": "Truth about nearby schools, hospitals, and elite factor.",
-                    "utilities": "Status of water (Bisalpur), electricity, and sewerage.",
-                    "sources": ["Google News Real-time Scrape", "JDA Master Plan 2025"]
+                    "recommendation": "Harsh verdict.",
+                    "projections": "ROI %",
+                    "infra": "Infra impact.",
+                    "catalysts": "Future drivers.",
+                    "civilization": "Schools/Hospitals/Elite factor.",
+                    "utilities": "Water/Electricity/Sewerage truth.",
+                    "sources": ["Scrape", "JDA Plan"]
                 }}
             }}
         ],
-        "infrastructure": [
+        "localities": [
             {{
-                "name": "Jaipur Ring Road",
-                "status": "Operational / Under Extension",
-                "lat": 26.7550,
-                "lng": 75.8200,
-                "civilization_score": "e.g. 4/10",
-                "utility_status": "e.g. Industrial power ready, but domestic water lagging.",
-                "desc": "Deep AI Insight: How this road is actually changing local life and which sectors are still 'ghost towns'."
-            }},
-            {{
-                "name": "Shivdaspura Aero City / Junction",
-                "status": "Delayed / Planning Stage",
-                "lat": 26.7200,
-                "lng": 75.8200,
-                "civilization_score": "e.g. 2/10",
-                "utility_status": "e.g. Zero sewerage, tankers only.",
-                "desc": "Deep AI Insight: The brutal truth about the 'Aero City' hype vs the ground reality of land acquisition."
+                "name": "Locality Name",
+                "lat": 26.8250,
+                "lng": 75.8650,
+                "infra_score": "e.g. 7/10",
+                "civilization_score": "e.g. 5/10",
+                "utility_status": "Water, Electricity, Sewerage reality.",
+                "major_projects": ["Project 1", "Project 2"],
+                "brutal_truth": "Brutally honest 2-3 sentence assessment of the area's current habitability vs investment hype."
             }}
         ]
     }}
@@ -121,7 +115,7 @@ def generate_real_ai_analysis(infra_news, land_news):
         raise
 
 def main():
-    print("🚀 Booting LandIntel Expert AI Pipeline...")
+    print("🚀 Booting LandIntel Locality Intelligence Pipeline...")
     
     # 1. Get Context
     infra_news = get_live_context("Jaipur JDA infrastructure projects metro ring road")
@@ -135,7 +129,7 @@ def main():
         with open('data.json', 'w', encoding='utf-8') as f:
             json.dump(ai_data, f, indent=4)
             
-        print("✅ SUCCESS! Real AI Expert data written to 'data.json'.")
+        print("✅ SUCCESS! Locality-wide Intel written to 'data.json'.")
         
     except Exception as e:
         print("❌ Error generating AI data.", e)

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>LandIntel - Locality Intelligence</title>
+    <title>LandIntel - High Density Mapping</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
@@ -30,9 +30,6 @@
         .popup-detail { margin: 3px 0; font-size: 12px; line-height: 1.4; }
         .btn-primary { display: block; width: 100%; background: #2c3e50; color: white; padding: 8px 0; margin-top: 10px; border-radius: 4px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
         
-        .legend { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.2); line-height: 1.5; font-size: 12px; }
-        .legend i { width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 5px; }
-
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; display: flex; flex-direction: column;}
         .modal-header { background: #2c3e50; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #3498db;}
@@ -42,25 +39,28 @@
 
         @media (max-width: 768px) {
             .app-container { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; max-height: 200px; padding: 10px; }
+            .sidebar { width: 100%; max-height: 250px; padding: 10px; }
             #map { height: 60vh; min-height: 400px; }
         }
     </style>
 </head>
 <body>
     <div class="hero">
-        <h1>LandIntel - Expert Locality Intel</h1>
-        <p class="tagline">Data: News Feed + JDA Master Plan + LLM Synthesis</p>
+        <h1>LandIntel - High Density Infra Map</h1>
+        <p class="tagline">Focus: Tonk Rd, Ajmer Rd, SEZ & Outer Ring Road</p>
         <div class="contact-badge">Updated: <span id="lastUpdated">...</span></div>
     </div>
 
     <div class="app-container">
         <div class="sidebar">
             <div class="panel-box">
-                <label>📍 Map Layers</label>
+                <label>📍 Legend</label>
                 <div style="font-size: 12px; color: #555;">
-                    <p>⭐ Locality Health Reports</p>
-                    <p>📍 Verified/AI Listings</p>
+                    <p><span style="color:#e67e22;">●</span> Road / Interchange</p>
+                    <p><span style="color:#9b59b6;">●</span> Metro Station / Line</p>
+                    <p><span style="color:#2ecc71;">●</span> Township / SEZ</p>
+                    <p><span style="color:#3498db;">●</span> Utility / Flagship</p>
+                    <p>⭐ Locality Health</p>
                 </div>
             </div>
             <div class="panel-box">
@@ -72,7 +72,7 @@
                     <option value="over100">Over ₹1 Cr</option>
                 </select>
             </div>
-            <p class="demo-note">Click <b>Locality Stars</b> for Zone Reports or <b>Blue Pins</b> for Listings.</p>
+            <p class="demo-note">Zoom out to see the <b>Outer Ring Road</b> border projects.</p>
         </div>
         <div id="map"></div>
     </div>
@@ -91,14 +91,20 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const map = L.map('map').setView([26.85, 75.75], 11);
+            const map = L.map('map').setView([26.75, 75.75], 10);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; LandIntel Jaipur'
+                attribution: '&copy; LandIntel Jaipur High-Density'
             }).addTo(map);
 
             const localityLayer = L.layerGroup().addTo(map);
+            const infraLayer = L.layerGroup().addTo(map);
             const listingLayer = L.layerGroup().addTo(map);
-            L.control.layers(null, {"⭐ Locality Intelligence": localityLayer, "📍 Land Listings": listingLayer}, { collapsed: false }).addTo(map);
+
+            L.control.layers(null, {
+                "⭐ Locality Health": localityLayer,
+                "🏗️ Infrastructure Points": infraLayer,
+                "📍 Land Listings": listingLayer
+            }, { collapsed: false }).addTo(map);
 
             let globalListings = [];
 
@@ -118,22 +124,39 @@
                                 iconAnchor: [15, 15]
                             })
                         });
-
-                        const projectsHtml = loc.major_projects.map(p => `<li style="margin-bottom:3px;">${p}</li>`).join('');
-
                         starMarker.bindPopup(`
-                            <div class="popup-title" style="color:#f39c12;">⭐ Zone: ${loc.name}</div>
-                            <div class="popup-detail"><strong>Infra Score:</strong> ${loc.infra_score}</div>
-                            <div class="popup-detail"><strong>Civilization:</strong> ${loc.civilization_score}</div>
-                            <div class="popup-detail" style="margin-top:8px; border-top:1px solid #eee; padding-top:8px;">
-                                <strong>Active Projects:</strong>
-                                <ul style="padding-left:15px; margin:5px 0;">${projectsHtml}</ul>
-                            </div>
-                            <div class="popup-detail" style="background:#f9f9f9; padding:8px; border-radius:4px; font-style:italic;">
+                            <div class="popup-title" style="color:#f39c12;">⭐ Locality: ${loc.name}</div>
+                            <div class="popup-detail"><strong>Infra:</strong> ${loc.infra_score} | <strong>Civilization:</strong> ${loc.civilization_score}</div>
+                            <div class="popup-detail" style="background:#f9f9f9; padding:8px; border-radius:4px; font-style:italic; margin-top:5px;">
                                 "${loc.brutal_truth}"
                             </div>
-                        `, { maxWidth: 280 });
+                        `, { maxWidth: 250 });
                         localityLayer.addLayer(starMarker);
+                    });
+
+                    // Render Infrastructure
+                    data.infrastructure.forEach(item => {
+                        let color = '#3498db'; // Utility
+                        if (item.type.includes('Road')) color = '#e67e22';
+                        if (item.type.includes('Metro')) color = '#9b59b6';
+                        if (item.type.includes('Township') || item.type.includes('SEZ')) color = '#2ecc71';
+
+                        const marker = L.circleMarker([item.lat, item.lng], {
+                            color: color,
+                            fillColor: color,
+                            fillOpacity: 0.7,
+                            radius: 7,
+                            weight: 2
+                        });
+                        marker.bindPopup(`
+                            <div class="popup-title" style="color:${color};">🏗️ ${item.name}</div>
+                            <div class="popup-detail"><strong>Type:</strong> ${item.type}</div>
+                            <div class="popup-detail"><strong>Status:</strong> ${item.status}</div>
+                            <div class="popup-detail" style="margin-top:5px; border-top:1px solid #eee; padding-top:5px;">
+                                ${item.desc}
+                            </div>
+                        `, { maxWidth: 250 });
+                        infraLayer.addLayer(marker);
                     });
 
                     renderListings();
@@ -153,7 +176,6 @@
                     marker.bindPopup(`
                         <div class="popup-title">📍 ${item.title}</div>
                         <div class="popup-detail"><strong>Price:</strong> ${item.priceTxt}</div>
-                        <div class="popup-detail" style="margin-bottom:8px;"><em>${item.desc}</em></div>
                         <button class="btn-primary" onclick="openListingReport(${index})">View Analysis</button>
                     `);
                     listingLayer.addLayer(marker);
@@ -167,20 +189,13 @@
                         <h3 style="margin: 0 0 5px 0; font-size: 13px; color: #0fb9b1; text-transform: uppercase;">Verdict</h3>
                         <p style="margin: 0; font-size: 14px;">${ai.recommendation}</p>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px;">
-                        <div style="background: #f1f2f6; padding: 10px; border-radius: 6px; border-left: 4px solid #2ed573;">
-                            <h4 style="margin:0 0 4px 0; font-size:10px; color:#57606f; text-transform:uppercase;">ROI Projection</h4>
-                            <p style="margin:0; font-weight:bold; font-size:14px;">${ai.projections}</p>
-                        </div>
-                    </div>
                     <div style="margin-bottom: 15px;">
                         <h3 style="font-size: 14px; margin: 0 0 5px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea;">🏗️ Infrastructure Impact</h3>
                         <p style="margin: 0;">${ai.infra}</p>
                     </div>
                     <div style="margin-bottom: 15px;">
                         <h3 style="font-size: 14px; margin: 0 0 5px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea;">🌍 Civilization & Utilities</h3>
-                        <p style="margin: 0;"><strong>Habitability:</strong> ${ai.civilization}</p>
-                        <p style="margin: 5px 0 0 0;"><strong>Utilities:</strong> ${ai.utilities}</p>
+                        <p style="margin: 0;">${ai.civilization}</p>
                     </div>
                 `;
                 document.getElementById('modalBodyContent').innerHTML = html;

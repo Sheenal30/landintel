@@ -2,19 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>LandIntel - Jaipur Land Intelligence</title>
+    
+    <!-- 1. Leaflet CSS (Map Engine) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
+    
+    <!-- 2. Custom CSS (Explicit relative path to fix your issue) -->
+    <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+    <!-- Hero Section -->
     <div class="hero">
         <h1>LandIntel</h1>
         <p class="tagline">Data Pipeline: Python Scraper → JSON → Map</p>
         <div class="contact-badge">Showing Data from: <span id="lastUpdated">Loading...</span></div>
     </div>
 
+    <!-- Main App Container -->
     <div class="app-container">
+        <!-- Sidebar -->
         <div class="sidebar">
             <div class="panel-box">
                 <label>📍 Filter Listings</label>
@@ -26,6 +33,8 @@
             </div>
             <p class="demo-note">Click a listing to view the Real AI Report extracted from the Python backend.</p>
         </div>
+        
+        <!-- Map Container -->
         <div id="map"></div>
     </div>
 
@@ -34,14 +43,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>🧠 AI Land Intelligence Report</h2>
-                <button class="close-btn" id="closeModalBtn">×</button>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <div class="modal-body" id="modalBodyContent"></div>
+            <div class="modal-body" id="modalBodyContent">
+                <!-- Data will be injected here -->
+            </div>
         </div>
     </div>
 
+    <!-- 3. Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- 'defer' ensures the HTML loads BEFORE the JavaScript runs, fixing your blank screen -->
-    <script src="app.js" defer></script>
+    
+    <!-- 4. Custom JS (Explicit relative path with defer) -->
+    <script src="./app.js" defer></script>
 </body>
 </html>

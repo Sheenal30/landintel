@@ -1,0 +1,43 @@
+/* Bulletproof Reset */
+* { box-sizing: border-box; }
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; color: #333; }
+
+/* Hero Section */
+.hero { background: #2c3e50; color: white; padding: 20px; text-align: center; border-bottom: 4px solid #3498db; }
+.hero h1 { margin: 0; font-size: 28px; color: #ecf0f1; }
+.hero p.tagline { font-size: 15px; color: #3498db; margin: 8px 0; font-weight: bold; }
+.contact-badge { display: inline-block; background: rgba(255,255,255,0.1); padding: 6px 15px; border-radius: 20px; font-size: 13px; border: 1px solid #34495e; }
+
+/* Layout: Forces Map to take remaining screen height */
+.app-container { display: flex; flex-direction: row; height: calc(100vh - 120px); min-height: 500px; width: 100%; }
+
+/* Sidebar */
+.sidebar { width: 320px; background: #fff; padding: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 1000; overflow-y: auto; }
+.panel-box { margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e9ecef; }
+.panel-box label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #2c3e50; }
+.panel-box select { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
+.demo-note { font-size: 13px; color: #7f8c8d; background: #e8f4f8; padding: 10px; border-radius: 6px; border-left: 3px solid #3498db; }
+
+/* MAP CONTAINER - Bulletproof constraints */
+#map { flex-grow: 1; height: 100%; width: 100%; min-height: 400px; z-index: 1; background: #ddd; }
+
+/* Popups */
+.popup-title { font-weight: bold; font-size: 15px; margin-bottom: 5px; color: #2980b9; }
+.popup-detail { margin: 4px 0; font-size: 13px; line-height: 1.4; }
+.btn-primary { display: block; width: 100%; background: #2c3e50; color: white; padding: 8px 0; margin-top: 10px; border-radius: 4px; font-size: 12px; font-weight: bold; border: none; cursor: pointer; }
+.btn-primary:hover { background: #34495e; }
+
+/* Modal (Hidden by default) */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
+.modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; display: flex; flex-direction: column;}
+.modal-header { background: #2c3e50; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #3498db;}
+.modal-header h2 { margin: 0; font-size: 18px; }
+.close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }
+.modal-body { padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .app-container { flex-direction: column; height: auto; }
+    .sidebar { width: 100%; max-height: 250px; }
+    #map { height: 60vh; min-height: 400px; }
+}

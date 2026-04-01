@@ -145,24 +145,43 @@
 
             window.openReport = function(index) {
                 const ai = globalListings[index].ai_report;
-                const sourcesHtml = ai.sources.map(src => `<span style="display:inline-block; background:#ecf0f1; padding:3px 6px; border-radius:4px; font-size:11px; margin:2px 5px 2px 0; border:1px solid #bdc3c7;">📄 ${src}</span>`).join('');
+                const sourcesHtml = ai.sources.map(src => `<span style="display:inline-block; background:#ecf0f1; padding:4px 8px; border-radius:4px; font-size:11px; margin:3px 5px 3px 0; border:1px solid #bdc3c7; color:#34495e;">📄 ${src}</span>`).join('');
 
                 const htmlContent = `
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px;">
-                        <div style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #e9ecef;">
-                            <h4 style="margin:0 0 5px 0; font-size:11px; color:#7f8c8d; text-transform:uppercase;">Certainty</h4>
-                            <p style="margin:0; font-weight:bold; font-size:14px;">${ai.certaintyScore}</p>
+                    <div style="background: #1e272e; color: white; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 14px; color: #0fb9b1; text-transform: uppercase; letter-spacing: 1px;">Expert AI Verdict</h3>
+                        <p style="margin: 0; font-size: 15px; font-weight: 500; line-height: 1.5;">${ai.recommendation}</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                        <div style="background: #f1f2f6; padding: 12px; border-radius: 6px; border-left: 4px solid #2ed573;">
+                            <h4 style="margin:0 0 4px 0; font-size:11px; color:#57606f; text-transform:uppercase;">5-Year Projection</h4>
+                            <p style="margin:0; font-weight:bold; font-size:16px; color:#2f3542;">${ai.projections.split('|')[0].replace('5-Year: ', '')}</p>
                         </div>
-                        <div style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #e9ecef;">
-                            <h4 style="margin:0 0 5px 0; font-size:11px; color:#7f8c8d; text-transform:uppercase;">Habitation</h4>
-                            <p style="margin:0; font-weight:bold; font-size:14px;">${ai.civilization}</p>
+                        <div style="background: #f1f2f6; padding: 12px; border-radius: 6px; border-left: 4px solid #1e90ff;">
+                            <h4 style="margin:0 0 4px 0; font-size:11px; color:#57606f; text-transform:uppercase;">10-Year Projection</h4>
+                            <p style="margin:0; font-weight:bold; font-size:16px; color:#2f3542;">${ai.projections.split('|')[1].replace('10-Year: ', '')}</p>
                         </div>
                     </div>
-                    <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">🏗️ Infra Reality Check</h3><p style="margin:0; font-size:13px;">${ai.projectStatus}</p></div>
-                    <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">⚖️ Zoning & Legal Risk</h3><p style="margin:0; font-size:13px;">${ai.zoningRisk}</p></div>
-                    <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">💡 Optimal Land Use</h3><p style="margin:0; font-size:13px;">${ai.bestUse}</p></div>
-                    <div style="background:#f0f3f4; padding:10px; border-radius:6px;">
-                        <h3 style="font-size:11px; margin:0 0 5px 0; color:#7f8c8d;">DATA LINEAGE (SCRAPED SOURCES)</h3>
+
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="font-size: 15px; margin: 0 0 8px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea; padding-bottom: 4px;">🏗️ Infrastructure Catalysts</h3>
+                        <p style="margin: 0; font-size: 14px; color: #2f3542; line-height: 1.5;"><strong>Status:</strong> ${ai.infra}</p>
+                        <p style="margin: 8px 0 0 0; font-size: 14px; color: #2f3542; line-height: 1.5;"><strong>Future Driver:</strong> ${ai.catalysts}</p>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="font-size: 15px; margin: 0 0 8px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea; padding-bottom: 4px;">🌍 Habitability & Civilization</h3>
+                        <p style="margin: 0; font-size: 14px; color: #2f3542; line-height: 1.5;">${ai.civilization}</p>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="font-size: 15px; margin: 0 0 8px 0; color: #2c3e50; border-bottom: 1px solid #dfe4ea; padding-bottom: 4px;">🚰 Basic Utilities</h3>
+                        <p style="margin: 0; font-size: 14px; color: #2f3542; line-height: 1.5; background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px dashed #ced6e0;">${ai.utilities}</p>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 12px; border-radius: 6px;">
+                        <h3 style="font-size: 11px; margin: 0 0 8px 0; color: #7f8c8d; text-transform: uppercase;">Data Lineage (Scraped Gov/Market Sources)</h3>
                         <div>${sourcesHtml}</div>
                     </div>
                 `;

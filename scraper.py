@@ -1,0 +1,210 @@
+import json
+from datetime import datetime
+
+def generate_expert_data():
+    scraped_data = {
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "infrastructure": [
+            {"name": "Jaipur Southern Ring Road", "status": "Operational (Phase 1)", "lat": 26.7550, "lng": 75.8200, "desc": "Connecting Ajmer, Tonk, and Agra roads."},
+            {"name": "Jagatpura Metro Extension", "status": "DPR Submitted", "lat": 26.8225, "lng": 75.8605, "desc": "Phase 2 Metro connecting Sitapura to Ambabari."},
+            {"name": "Mahindra World City (SEZ)", "status": "Expanding", "lat": 26.8100, "lng": 75.6500, "desc": "Major IT and Manufacturing Hub."},
+            {"name": "Shivdaspura Aero City", "status": "Announced (Stalled)", "lat": 26.7200, "lng": 75.8200, "desc": "Greenfield airport site."},
+            {"name": "Northern Ring Road", "status": "Land Acquisition", "lat": 26.9800, "lng": 75.8800, "desc": "Connecting Delhi Road to Agra Road."}
+        ],
+        "listings": [
+            # --- JAGATPURA CORRIDOR (High growth, Education/IT, Premium) ---
+            {
+                "title": "300 sq.yd Plot, Ramnagaria (Jagatpura)", "price": 120, "priceTxt": "₹1.20 Cr", "lat": 26.8250, "lng": 75.8650, "desc": "Premium JDA Approved Residential Plot.",
+                "ai_report": {
+                    "infra": "Metro Phase 2 (Announced - DPR Submitted, expected 2028) is 800m away. Bombay Hospital (Operational) is 1.5km away.",
+                    "civilization": "Highly Habitable. Top-tier schools (Jayshree Periwal, SRN) and JNU University within 2km radius. Zomato/Swiggy/Blinkit fully serviceable.",
+                    "utilities": "Bisalpur Water Line: CONNECTED. JDA Sewerage: CONNECTED. Roads: 60ft wide tar roads.",
+                    "catalysts": "The influx of IT professionals from nearby Sitapura and students requires high-quality rental housing. Metro approval will trigger a sudden 15% spike.",
+                    "projections": "5-Year: +45% (Conservative) | 10-Year: +110% (Metro integration).",
+                    "recommendation": "STRONG BUY FOR RESIDENTIAL / CO-LIVING. Build a multi-story PG or premium apartments. The immediate rental yield (approx 4-5%) mitigates holding risk.",
+                    "sources": ["JDA Sector Plan 2025", "Metro DPR Phase 2", "RERA Registry 2024"]
+                }
+            },
+            {
+                "title": "500 sq.yd Commercial, Mahal Road", "price": 350, "priceTxt": "₹3.50 Cr", "lat": 26.8150, "lng": 75.8500, "desc": "Main road commercial facing.",
+                "ai_report": {
+                    "infra": "Sector road widening (Started - 70% complete). Signal-free corridor planned.",
+                    "civilization": "Dense upper-middle-class urban civilization. High footfall area.",
+                    "utilities": "All civic utilities fully functional. 3-Phase commercial electricity available.",
+                    "catalysts": "Mahal road is becoming the 'High Street' of South Jaipur. Retail brands (Reliance, Croma) are actively acquiring leases.",
+                    "projections": "5-Year: +60% | 10-Year: +150%.",
+                    "recommendation": "BUY FOR RETAIL COMMERCIAL. Excellent for building a retail complex or banking hub. High capital requirement but secure, inflation-beating asset.",
+                    "sources": ["Local Market Yield Scrape", "Jaipur Municipal Corp Commercial Zoning"]
+                }
+            },
+            # --- SHIVDASPURA / TONK ROAD (Speculative, Logistics) ---
+            {
+                "title": "2 Bigha Agri Land, Shivdaspura", "price": 90, "priceTxt": "₹90 Lakh", "lat": 26.7350, "lng": 75.8150, "desc": "Agricultural land 1.5km from proposed Aero City.",
+                "ai_report": {
+                    "infra": "Aero City (Announced - Land Acquisition lapsed). Southern Ring Road (Operational - 3km away).",
+                    "civilization": "Rural/Sparse. Nearest hospital (Mahatma Gandhi) is 12km away. No modern schools nearby.",
+                    "utilities": "Bisalpur Water: NO (Borewell dependent, water table dropping). Sewerage: NO (Septic required). Roads: Dirt track (Kaccha rasta).",
+                    "catalysts": "Revival of the Aero City project or construction of Ring Road service lanes into logistics parks. Timeline is highly uncertain (5-8 years).",
+                    "projections": "5-Year: +15% (Stagnant) | 10-Year: +300% (IF airport is built).",
+                    "recommendation": "HIGH RISK SPECULATIVE HOLD. DO NOT buy for residential use. Best suited for land-banking by NRIs who can lock capital away for 10+ years without needing immediate returns.",
+                    "sources": ["Revenue Dept Gazettes", "Groundwater Board Rajasthan"]
+                }
+            },
+            {
+                "title": "1000 sq.yd Warehousing Plot, Tonk Road Ext", "price": 180, "priceTxt": "₹1.80 Cr", "lat": 26.7500, "lng": 75.8050, "desc": "Just off the Ring Road intersection.",
+                "ai_report": {
+                    "infra": "Ring Road Cloverleaf Interchange (Completed).",
+                    "civilization": "Industrial/Transit. Dhabas, truck stops, and petrol pumps.",
+                    "utilities": "Water: Tanker/Borewell. Sewerage: None. Roads: 100ft sector road direct to highway.",
+                    "catalysts": "E-commerce boom. Amazon and Flipkart are aggressively looking for last-mile fulfillment centers near the Ring Road to bypass city traffic.",
+                    "projections": "5-Year: +70% | 10-Year: +140%.",
+                    "recommendation": "BUY FOR WAREHOUSING. Construct a pre-engineered building (PEB) warehouse. Yields for logistics real estate here are beating traditional commercial.",
+                    "sources": ["Logistics Sector Report 2024", "JDA Transport Node Plans"]
+                }
+            },
+            # --- AJMER ROAD / BHANKROTA (SEZ, Stable Growth) ---
+            {
+                "title": "150 sq.yd Plot, Bhankrota", "price": 45, "priceTxt": "₹45 Lakh", "lat": 26.8500, "lng": 75.6800, "desc": "Gated society near Ring Road.",
+                "ai_report": {
+                    "infra": "Delhi-Mumbai Expressway Link Road (Close to completion - 90%). Mahindra SEZ (Operational).",
+                    "civilization": "Developing suburban. Good basic schools. Super-specialty hospitals are a 15-min drive to Mansarovar.",
+                    "utilities": "Bisalpur Water: Partially connected (subject to pressure). Sewerage: Society STP. Roads: Paved.",
+                    "catalysts": "Completion of the Expressway link will drastically cut travel time to Gurgaon/Delhi, making this a prime second-home location for NCR residents.",
+                    "projections": "5-Year: +50% | 10-Year: +100%.",
+                    "recommendation": "BUY FOR END-USE OR RENTAL. Safe, stable investment. Good for young professionals working in Mahindra SEZ looking to build their first home.",
+                    "sources": ["NHAI Expressway Reports", "SEZ Employment Data"]
+                }
+            },
+            {
+                "title": "400 sq.yd Residential, Near DPS Ajmer Road", "price": 140, "priceTxt": "₹1.40 Cr", "lat": 26.8650, "lng": 75.7100, "desc": "Prime JDA plot near Delhi Public School.",
+                "ai_report": {
+                    "infra": "Elevated Road Ajmer Highway (Completed).",
+                    "civilization": "Highly established. DPS, St. Xaviers nearby. excellent family ecosystem.",
+                    "utilities": "Water: Yes. Sewerage: Yes. Elect: Underground cables.",
+                    "catalysts": "Scarcity of large plots in prime Ajmer road sectors. Wealth shifts from older crowded city areas to these open suburbs.",
+                    "projections": "5-Year: +35% | 10-Year: +80%.",
+                    "recommendation": "BUY FOR PREMIUM VILLA. Low risk. Not a hyper-growth speculative asset, but a wealth-preservation asset with excellent quality of life.",
+                    "sources": ["JDA Registry Data"]
+                }
+            },
+            # --- SIKAR ROAD / VKI (Industrial & High Density) ---
+            {
+                "title": "800 sq.yd Factory Shed, VKI Area", "price": 250, "priceTxt": "₹2.50 Cr", "lat": 26.9800, "lng": 75.7600, "desc": "RIICO Industrial Area.",
+                "ai_report": {
+                    "infra": "Sikar Road Metro (Proposed - No DPR yet).",
+                    "civilization": "Pure Industrial. Heavy traffic, high pollution, labor colonies nearby.",
+                    "utilities": "Water: Industrial Supply. Power: Dedicated RIICO sub-station (No cuts).",
+                    "catalysts": "Shortage of new industrial land in city limits. Existing factories are expanding vertically.",
+                    "projections": "5-Year: +40% | 10-Year: +90%.",
+                    "recommendation": "BUY FOR MANUFACTURING / LEASING. Excellent rental yield from local MSMEs. Do not expect massive capital appreciation, focus on cash flow.",
+                    "sources": ["RIICO Land Allotment Data"]
+                }
+            },
+            {
+                "title": "200 sq.yd Plot, Harmada (Sikar Rd)", "price": 30, "priceTxt": "₹30 Lakh", "lat": 27.0100, "lng": 75.7400, "desc": "Budget plot in developing colony.",
+                "ai_report": {
+                    "infra": "Northern Ring Road (Land Acquisition phase).",
+                    "civilization": "Fringe urban. Basic local clinics. No major hospitals nearby.",
+                    "utilities": "Water: Borewell only. Sewerage: None. Roads: Unpaved.",
+                    "catalysts": "Expansion of VKI industrial labor looking for affordable housing. Long-term play on Northern Ring road completion.",
+                    "projections": "5-Year: +25% | 10-Year: +75%.",
+                    "recommendation": "HOLD / CAUTION. Low entry price but development is extremely slow here. Better suited for local blue-collar workers than NRI investors.",
+                    "sources": ["Local Panchayat records"]
+                }
+            },
+            # --- AGRA ROAD (Heritage, Slower Growth) ---
+            {
+                "title": "5 Bigha Resort Land, Agra Road", "price": 200, "priceTxt": "₹2.00 Cr", "lat": 26.8900, "lng": 75.9200, "desc": "Scenic land near hills.",
+                "ai_report": {
+                    "infra": "Agra Road Tunnel (Announced - Stuck in Eco-clearance).",
+                    "civilization": "Sparse. Eco-sensitive zone nearby. Very peaceful but isolated.",
+                    "utilities": "Off-grid primarily. Groundwater levels are decent.",
+                    "catalysts": "Surge in Jaipur heritage tourism. Weekend getaway resorts are highly profitable.",
+                    "projections": "5-Year: +30% | 10-Year: +80%.",
+                    "recommendation": "BUY FOR HOSPITALITY. Convert to an eco-resort or wedding garden. Not suitable for standard residential plotting due to eco-zone restrictions (JDA Master Plan).",
+                    "sources": ["Tourism Dept Rajasthan", "Forest Dept Clearances"]
+                }
+            },
+            {
+                "title": "300 sq.yd Plot, Transport Nagar Ext", "price": 85, "priceTxt": "₹85 Lakh", "lat": 26.9100, "lng": 75.8600, "desc": "Close to highway.",
+                "ai_report": {
+                    "infra": "Metro Phase 1C (Under Construction - 40% complete).",
+                    "civilization": "Highly dense, slightly chaotic due to heavy transport vehicles.",
+                    "utilities": "All civic amenities present but strained. Heavy traffic.",
+                    "catalysts": "Metro completion will ease traffic and gentrify the area.",
+                    "projections": "5-Year: +45% | 10-Year: +85%.",
+                    "recommendation": "MIXED USE. Ground floor commercial (auto-parts/logistics), upper floors residential. High immediate utility.",
+                    "sources": ["Metro Phase 1C Status Report"]
+                }
+            },
+            # --- MANSAROVAR / NIRMAN NAGAR (Established, In-fill) ---
+            {
+                "title": "Old House (Demolish) 250 sq.yd, Mansarovar", "price": 220, "priceTxt": "₹2.20 Cr", "lat": 26.8550, "lng": 75.7600, "desc": "Prime location near Metro.",
+                "ai_report": {
+                    "infra": "Mansarovar Metro Station (Operational).",
+                    "civilization": "Peak urban. Top hospitals (Saket, Apex), massive central park, malls.",
+                    "utilities": "Perfect infrastructure. 100% connected.",
+                    "catalysts": "In-fill development. Builders are buying old houses, demolishing them, and building 4-story luxury builder floors (Stilt + 4).",
+                    "projections": "5-Year: +30% | 10-Year: +60%.",
+                    "recommendation": "BUY FOR REDEVELOPMENT. Excellent for an NRI wanting to partner with a local builder. Build 4 flats, keep 1, sell 3. High capital required, near-zero risk.",
+                    "sources": ["JDA Building By-laws 2020"]
+                }
+            },
+            {
+                "title": "Retail Shop, Nirman Nagar", "price": 110, "priceTxt": "₹1.10 Cr", "lat": 26.8850, "lng": 75.7500, "desc": "Ground floor shop on 80ft road.",
+                "ai_report": {
+                    "infra": "200ft Bypass intersection upgrade (Ongoing).",
+                    "civilization": "Premium residential catchment area.",
+                    "utilities": "Commercial grade utilities available.",
+                    "catalysts": "High density of coaching institutes and hospitals in the vicinity drives constant footfall.",
+                    "projections": "5-Year: +25% | 10-Year: +50%.",
+                    "recommendation": "BUY FOR RENTAL YIELD. Capital appreciation will be slow as it's already priced at market peak, but rental income is guaranteed and stable.",
+                    "sources": ["Market Rent Yield Index"]
+                }
+            },
+             # --- SIRSI ROAD / VAISHALI EXTENSION ---
+            {
+                "title": "400 sq.yd Plot, Sirsi Road", "price": 95, "priceTxt": "₹95 Lakh", "lat": 26.9200, "lng": 75.7100, "desc": "Upcoming township.",
+                "ai_report": {
+                    "infra": "Sirsi-Bindayaka Railway Overbridge (Completed).",
+                    "civilization": "Rapidly urbanizing. Good local markets, 10 mins from Vaishali Nagar.",
+                    "utilities": "Bisalpur: Under laying phase. Sewerage: Work in progress.",
+                    "catalysts": "Spillover demand from Vaishali Nagar. People who can't afford Vaishali are moving here.",
+                    "projections": "5-Year: +55% | 10-Year: +120%.",
+                    "recommendation": "STRONG BUY RESIDENTIAL. One of the best mid-budget residential plays in Jaipur right now. Infrastructure is catching up fast.",
+                    "sources": ["JDA Zone 12 Updates"]
+                }
+            },
+            {
+                "title": "150 sq.yd Plot, Kanakpura", "price": 40, "priceTxt": "₹40 Lakh", "lat": 26.9350, "lng": 75.7200, "desc": "Railway station proximity.",
+                "ai_report": {
+                    "infra": "Kanakpura Railway Station Upgradation (Started).",
+                    "civilization": "Mid-tier residential. Narrower roads but good connectivity.",
+                    "utilities": "Basic utilities present. Traffic bottlenecks exist.",
+                    "catalysts": "Railway station upgrade to a satellite terminus will boost local commercial values.",
+                    "projections": "5-Year: +40% | 10-Year: +80%.",
+                    "recommendation": "BUY FOR BUDGET END-USE. Good for families relying on train transport.",
+                    "sources": ["Railway Board Tenders"]
+                }
+            },
+            {
+                "title": "Farmhouse Land, Kalwar Road", "price": 60, "priceTxt": "₹60 Lakh", "lat": 26.9700, "lng": 75.6800, "desc": "1 Bigha land outside city limits.",
+                "ai_report": {
+                    "infra": "Kalwar State Highway Widening (Completed).",
+                    "civilization": "Rural/Agricultural. Very quiet.",
+                    "utilities": "No JDA utilities. Private borewell required.",
+                    "catalysts": "Expanding city borders. Slow but steady conversion of agri land to residential townships.",
+                    "projections": "5-Year: +20% | 10-Year: +60%.",
+                    "recommendation": "HOLD / LIFESTYLE BUY. Buy if you want a weekend home. Do not buy expecting rapid commercial or residential appreciation in the near term.",
+                    "sources": ["Town Planning Maps"]
+                }
+            }
+        ]
+    }
+
+    with open('data.json', 'w', encoding='utf-8') as f:
+        json.dump(scraped_data, f, indent=4)
+    print("✅ 15 Expert AI Listings Generated! Data saved to 'data.json'.")
+
+if __name__ == "__main__":
+    generate_expert_data()

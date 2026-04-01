@@ -112,7 +112,9 @@
                         marker.bindPopup(`
                             <div class="popup-title" style="color:#c0392b;">🏗️ ${item.name}</div>
                             <div class="popup-detail"><strong>Status:</strong> ${item.status}</div>
-                            <div class="popup-detail"><em>${item.desc}</em></div>
+                            <div class="popup-detail"><strong>Civilization Score:</strong> ${item.civilization_score || 'N/A'}</div>
+                            <div class="popup-detail"><strong>Utilities:</strong> ${item.utility_status || 'N/A'}</div>
+                            <div class="popup-detail" style="margin-top:8px;"><em>${item.desc}</em></div>
                         `);
                         infraLayer.addLayer(marker);
                     });

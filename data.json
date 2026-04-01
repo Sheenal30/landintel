@@ -1,0 +1,59 @@
+{
+    "last_updated": "2026-04-01 17:55:45",
+    "infrastructure": [
+        {
+            "name": "Jaipur Southern Ring Road (Real Scrape)",
+            "status": "Operational (Toll Active)",
+            "lat": 26.755,
+            "lng": 75.82,
+            "desc": "Extracted from JDA notification gazette dated Oct 2023."
+        },
+        {
+            "name": "Jagatpura Metro Ext (Real Scrape)",
+            "status": "DPR Submitted",
+            "lat": 26.8225,
+            "lng": 75.8605,
+            "desc": "Extracted from Rajasthan Patrika news scrape."
+        }
+    ],
+    "listings": [
+        {
+            "title": "2 Bigha Agri Land, Shivdaspura",
+            "price": 90,
+            "priceTxt": "\u20b990 Lakh",
+            "lat": 26.735,
+            "lng": 75.815,
+            "desc": "Cross-referenced with recent registry data in Tehsil Sanganer.",
+            "ai_report": {
+                "certaintyScore": "Low (35%)",
+                "civilization": "Agricultural (Khasra No. 402)",
+                "bestUse": "Logistics Holding",
+                "projectStatus": "Scraped from JDA Portal: Aero City Section 4 land acquisition has legally lapsed.",
+                "zoningRisk": "Warning: Master Plan 2025 PDF categorizes this as U-1 but lacks JDA Patta. Section 90A conversion required.",
+                "sources": [
+                    "JDA Master Plan 2025.pdf",
+                    "Sanganer Tehsil Registry Data"
+                ]
+            }
+        },
+        {
+            "title": "500 sq.yd Commercial, Tonk Rd",
+            "price": 150,
+            "priceTxt": "\u20b91.5 Crore",
+            "lat": 26.77,
+            "lng": 75.8,
+            "desc": "Verified JDA Approved (Scraped from RERA DB).",
+            "ai_report": {
+                "certaintyScore": "High (90%)",
+                "civilization": "Urbanized Commercial",
+                "bestUse": "Retail / Office Space",
+                "projectStatus": "Ring Road connectivity fully established 2km away.",
+                "zoningRisk": "Clear Title. Commercial zoning verified via RERA Rajasthan portal scrape.",
+                "sources": [
+                    "RERA Rajasthan Public API",
+                    "Jaipur Municipal Corporation DB"
+                ]
+            }
+        }
+    ]
+}

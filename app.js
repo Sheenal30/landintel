@@ -1,0 +1,91 @@
+// Wait for DOM to load completely to prevent blank screen errors
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const map = L.map('map').setView([26.80, 75.82], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap | LandIntel'
+    }).addTo(map);
+
+    const infraLayer = L.layerGroup().addTo(map);
+    const landLayer = L.layerGroup().addTo(map);
+    L.control.layers(null, {"🏗️ Govt Infrastructure": infraLayer, "📍 Land Listings": landLayer}, { collapsed: false }).addTo(map);
+
+    let globalListings = [];
+
+    // FETCH REAL DATA FROM THE PYTHON SCRAPER'S JSON FILE
+    fetch('data.json')
+        .then(response => {
+            if (!response.ok) throw new Error("Could not load data.json. Are you running a local server?");
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('lastUpdated').innerText = data.last_updated;
+            globalListings = data.listings;
+            
+            // Render Infrastructure
+            data.infrastructure.forEach(item => {
+                const marker = L.circleMarker([item.lat, item.lng], { color: '#c0392b', fillColor: '#e74c3c', fillOpacity: 0.8, radius: 8, weight: 2 });
+                marker.bindPopup(`<div class="popup-title" style="color:#c0392b;">🏗️ ${item.name}</div><div class="popup-detail"><strong>Status:</strong> ${item.status}</div><div class="popup-detail"><em>${item.desc}</em></div>`);
+                infraLayer.addLayer(marker);
+            });
+
+            renderListings();
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Error: To view the real JSON data locally, you must use a local web server (like VS Code Live Server) or push to GitHub Pages. Browsers block local file fetching.");
+        });
+
+    function renderListings() {
+        landLayer.clearLayers();
+        const priceFilter = document.getElementById('priceFilter').value;
+
+        globalListings.forEach((item, index) => {
+            if (priceFilter === 'under100' && item.price >= 100) return;
+            if (priceFilter === 'over100' && item.price < 100) return;
+
+            const marker = L.marker([item.lat, item.lng]);
+            marker.bindPopup(`
+                <div class="popup-title">📍 ${item.title}</div>
+                <div class="popup-detail"><strong>Price:</strong> ${item.priceTxt}</div>
+                <div class="popup-detail" style="margin-bottom:8px;"><em>${item.desc}</em></div>
+                <button class="btn-primary" onclick="openReport(${index})">View Real AI Report</button>
+            `);
+            landLayer.addLayer(marker);
+        });
+    }
+
+    // Attach to window object so inline HTML 'onclick' can find it
+    window.openReport = function(index) {
+        const ai = globalListings[index].ai_report;
+        const sourcesHtml = ai.sources.map(src => `<span class="source-tag" style="background:#ecf0f1; padding:3px 6px; border-radius:4px; font-size:11px; margin-right:5px; border:1px solid #bdc3c7;">📄 ${src}</span>`).join('');
+
+        const htmlContent = `
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px;">
+                <div style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #e9ecef;">
+                    <h4 style="margin:0 0 5px 0; font-size:11px; color:#7f8c8d; text-transform:uppercase;">Certainty</h4>
+                    <p style="margin:0; font-weight:bold; font-size:14px;">${ai.certaintyScore}</p>
+                </div>
+                <div style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #e9ecef;">
+                    <h4 style="margin:0 0 5px 0; font-size:11px; color:#7f8c8d; text-transform:uppercase;">Habitation</h4>
+                    <p style="margin:0; font-weight:bold; font-size:14px;">${ai.civilization}</p>
+                </div>
+            </div>
+            <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">🏗️ Infra Reality</h3><p style="margin:0; font-size:13px;">${ai.projectStatus}</p></div>
+            <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">⚖️ Zoning Risk</h3><p style="margin:0; font-size:13px;">${ai.zoningRisk}</p></div>
+            <div style="margin-bottom:15px;"><h3 style="font-size:14px; margin:0 0 5px 0; color:#2980b9;">💡 Optimal Use</h3><p style="margin:0; font-size:13px;">${ai.bestUse}</p></div>
+            <div style="background:#f0f3f4; padding:10px; border-radius:6px;">
+                <h3 style="font-size:11px; margin:0 0 5px 0; color:#7f8c8d;">DATA LINEAGE (SCRAPED SOURCES)</h3>
+                <div>${sourcesHtml}</div>
+            </div>
+        `;
+        document.getElementById('modalBodyContent').innerHTML = htmlContent;
+        document.getElementById('aiModal').style.display = 'flex';
+    };
+
+    document.getElementById('closeModalBtn').addEventListener('click', () => {
+        document.getElementById('aiModal').style.display = 'none';
+    });
+
+    document.getElementById('priceFilter').addEventListener('change', renderListings);
+});

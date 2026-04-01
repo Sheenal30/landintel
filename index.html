@@ -2,223 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Ensures the map looks good on mobile screens -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LandIntel - Jaipur Land Intelligence</title>
-
-    <!-- Leaflet CSS (Free, open-source mapping library) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-    <style>
-        /* Reset margins and make the map take up the full screen */
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        #map { height: 100vh; width: 100vw; z-index: 1; }
-
-        /* Custom branding overlay to make it look like a real startup product */
-        .brand-overlay {
-            position: absolute;
-            top: 15px;
-            left: 50px; /* Offset to not cover zoom controls */
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            pointer-events: none; /* Lets clicks pass through to the map */
-        }
-        .brand-overlay h1 { margin: 0; font-size: 22px; color: #2c3e50; }
-        .brand-overlay p { margin: 2px 0 0 0; font-size: 12px; color: #7f8c8d; }
-
-        /* Styling for the map popups */
-        .popup-title { font-weight: bold; font-size: 16px; margin-bottom: 5px; color: #2980b9; }
-        .popup-infra-title { color: #c0392b; }
-        .popup-detail { margin: 4px 0; font-size: 13px; line-height: 1.4; color: #34495e; }
-        .badge { 
-            display: inline-block; padding: 2px 6px; border-radius: 4px; 
-            font-size: 11px; font-weight: bold; color: white; margin-bottom: 5px;
-        }
-        .bg-green { background-color: #27ae60; }
-        .bg-orange { background-color: #f39c12; }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-    <!-- Branding Header -->
-    <div class="brand-overlay">
+    <div class="hero">
         <h1>LandIntel</h1>
-        <p>Transparent Land Intelligence • Jaipur MVP</p>
+        <p class="tagline">Data Pipeline: Python Scraper → JSON → Map</p>
+        <div class="contact-badge">Showing Data from: <span id="lastUpdated">Loading...</span></div>
     </div>
 
-    <!-- The Map Container -->
-    <div id="map"></div>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="panel-box">
+                <label>📍 Filter Listings</label>
+                <select id="priceFilter">
+                    <option value="all">All Properties</option>
+                    <option value="under100">Under ₹1 Crore</option>
+                    <option value="over100">₹1 Crore & Above</option>
+                </select>
+            </div>
+            <p class="demo-note">Click a listing to view the Real AI Report extracted from the Python backend.</p>
+        </div>
+        <div id="map"></div>
+    </div>
 
-    <!-- Leaflet JS -->
+    <!-- AI Modal -->
+    <div class="modal-overlay" id="aiModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🧠 AI Land Intelligence Report</h2>
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-body" id="modalBodyContent"></div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <script>
-        // 1. INITIALIZE THE MAP
-        // Center on Jaipur (Latitude: 26.9124, Longitude: 75.7873), Zoom level: 12
-        const map = L.map('map').setView([26.9124, 75.7873], 12);
-
-        // 2. ADD BASEMAP TILES (OpenStreetMap - 100% Free, no API key)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | LandIntel'
-        }).addTo(map);
-
-        // 3. HARDCODED DATA (Realistic Jaipur Infrastructure & Listings)
-        
-        // Infrastructure Data
-        const infrastructureData = [
-            {
-                name: "Jaipur Metro Phase 2 – Jagatpura Station",
-                type: "Metro Extension",
-                status: "Under Construction",
-                completion_year: 2026,
-                lat: 26.8825, lng: 75.8305,
-                description: "New metro station expected to boost residential and commercial development within 1km radius."
-            },
-            {
-                name: "Northern Ring Road Project",
-                type: "Highway",
-                status: "Planned",
-                completion_year: 2027,
-                lat: 26.9600, lng: 75.8800,
-                description: "Connecting Agra Road to Delhi Road. Will create new logistics and warehousing hubs."
-            },
-            {
-                name: "RIICO Industrial Area Ext. Bagru",
-                type: "Industrial Zone",
-                status: "Active Development",
-                completion_year: 2025,
-                lat: 26.8150, lng: 75.5450,
-                description: "Expansion of manufacturing zones. High demand for labor housing and small industrial plots."
-            },
-            {
-                name: "Shivdaspura Aero City (Proposed)",
-                type: "Airport / Urban Hub",
-                status: "Proposed",
-                completion_year: 2030,
-                lat: 26.7200, lng: 75.8200,
-                description: "Proposed site for greenfield airport. Highly speculative area with high long-term ROI potential."
-            },
-            {
-                name: "Transport Nagar Metro Extension",
-                type: "Metro Extension",
-                status: "Approved",
-                completion_year: 2027,
-                lat: 26.9170, lng: 75.8450,
-                description: "Phase 1C extension. Expected to relieve traffic congestion and boost commercial property values."
-            }
-        ];
-
-        // Land Listings Data
-        const landListingsData = [
-            {
-                title: "200 sq.yd plot near Jagatpura",
-                price: "₹35 lakh",
-                size: "200 sq.yd",
-                lat: 26.8850, lng: 75.8320,
-                assessment: "High growth potential due to upcoming metro station 400m away. Expected 20–30% appreciation by 2027.",
-                score: "High", source: "Broker network"
-            },
-            {
-                title: "500 sq.yd Commercial Plot, Agra Rd",
-                price: "₹1.2 Crore",
-                size: "500 sq.yd",
-                lat: 26.9190, lng: 75.8480,
-                assessment: "Prime location near Transport Nagar extension. Great for retail or warehousing.",
-                score: "Medium", source: "Direct Owner"
-            },
-            {
-                title: "150 sq.yd Residential, Bagru",
-                price: "₹15 lakh",
-                size: "150 sq.yd",
-                lat: 26.8200, lng: 75.5500,
-                assessment: "Affordable housing segment. Demand driven by nearby RIICO expansion. Steady 10% annual growth.",
-                score: "Medium", source: "Local Panchayat Listing"
-            },
-            {
-                title: "2 Bigha Farmhouse Land, Shivdaspura",
-                price: "₹80 lakh",
-                size: "2 Bigha",
-                lat: 26.7250, lng: 75.8250,
-                assessment: "Speculative buy. If Aero City is finalized, value could 3x in 5 years. High risk, high reward.",
-                score: "High", source: "Broker network"
-            },
-            {
-                title: "300 sq.yd Mixed-Use, Delhi Road",
-                price: "₹60 lakh",
-                size: "300 sq.yd",
-                lat: 26.9650, lng: 75.8850,
-                assessment: "Strategic location near the upcoming Northern Ring Road intersection. Perfect for logistics.",
-                score: "High", source: "Bank Auction PDF"
-            }
-        ];
-
-        // 4. CREATE LAYER GROUPS
-        // This allows us to toggle Infrastructure and Land Listings on and off independently
-        const infraLayer = L.layerGroup();
-        const landLayer = L.layerGroup();
-
-        // 5. POPULATE INFRASTRUCTURE LAYER (Using Red Circle Markers)
-        infrastructureData.forEach(item => {
-            // Create a red circle marker for infrastructure
-            const marker = L.circleMarker([item.lat, item.lng], {
-                color: '#c0392b',      // Dark red border
-                fillColor: '#e74c3c',  // Light red fill
-                fillOpacity: 0.8,
-                radius: 8,
-                weight: 2
-            });
-
-            // Build the HTML for the popup
-            const popupContent = `
-                <div class="popup-title popup-infra-title">🏗️ ${item.name}</div>
-                <div class="popup-detail"><strong>Type:</strong> ${item.type}</div>
-                <div class="popup-detail"><strong>Status:</strong> ${item.status} (Est. ${item.completion_year})</div>
-                <div class="popup-detail" style="margin-top:8px;"><em>${item.description}</em></div>
-            `;
-            
-            marker.bindPopup(popupContent);
-            infraLayer.addLayer(marker); // Add to the infra layer group
-        });
-
-        // 6. POPULATE LAND LISTINGS LAYER (Using Standard Blue Markers)
-        landListingsData.forEach(item => {
-            // Use standard Leaflet marker for properties
-            const marker = L.marker([item.lat, item.lng]);
-
-            // Determine badge color based on growth score
-            const badgeClass = item.score === 'High' ? 'bg-green' : 'bg-orange';
-
-            // Build the HTML for the popup
-            const popupContent = `
-                <div class="popup-title">📍 ${item.title}</div>
-                <span class="badge ${badgeClass}">${item.score} Growth Potential</span>
-                <div class="popup-detail"><strong>Price:</strong> ${item.price}</div>
-                <div class="popup-detail"><strong>Size:</strong> ${item.size}</div>
-                <div class="popup-detail"><strong>AI Assessment:</strong> ${item.assessment}</div>
-                <div class="popup-detail" style="font-size: 11px; color: #7f8c8d; margin-top: 8px;">Source: ${item.source}</div>
-            `;
-
-            marker.bindPopup(popupContent);
-            landLayer.addLayer(marker); // Add to the land layer group
-        });
-
-        // 7. ADD LAYERS TO MAP & CREATE TOGGLE CONTROL
-        // Add both layers to the map by default
-        infraLayer.addTo(map);
-        landLayer.addTo(map);
-
-        // Define the names for the control box in the top right corner
-        const overlays = {
-            "🏗️ Infrastructure Projects": infraLayer,
-            "📍 Land Listings": landLayer
-        };
-
-        // Add the layer control panel to the map
-        L.control.layers(null, overlays, { collapsed: false }).addTo(map);
-
-    </script>
+    <!-- 'defer' ensures the HTML loads BEFORE the JavaScript runs, fixing your blank screen -->
+    <script src="app.js" defer></script>
 </body>
 </html>
